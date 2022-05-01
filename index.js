@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const port = process.env.PORT || 5000;
 require('dotenv').config();
 const app = express();
@@ -18,7 +18,7 @@ async function run() {
         await client.connect();
         const toysCollection = client.db('nathToys').collection('inventory');
 
-        // get data from mongodb
+        // get all data from mongodb
         app.get('/inventory', async(req, res) => {
             const query = {};
             const cursor = toysCollection.find(query);
@@ -27,14 +27,11 @@ async function run() {
             res.send(toys);
         })
 
-        // update data in mongodb
-        app.put('/inventory/:inventoryId', async(req, res) => {
+        // get single data in mongodb
+        app.get('/inventory/:id', async(req, res) => {
             const id = req.params.id;
-            const toy = req.body;
-            const query = { _id: ObjectId(id) };
-            const update = { $set: toy };
-            const options = { upsert: true };
-            const result = await toysCollection.updateOne(query, update, options);
+            const query= {_id: ObjectId(id)};
+            const result = await toysCollection.findOne(query);
             res.send(result);
         })
     }
