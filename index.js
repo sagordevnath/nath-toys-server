@@ -58,6 +58,17 @@ async function run() {
             const result = await toysCollection.updateOne(filter, update, options);
             res.send(result);
         })
+
+        // delete inventory
+        app.delete('/inventory/:id', async(req, res) => {
+            const id = req.params.id;
+            const query = {_id: ObjectId(id)};
+            const result = await toysCollection.deleteOne(query);
+            res.send(result);
+        })
+    } catch(err) {
+        console.error(err);
+        
         
 
     }
