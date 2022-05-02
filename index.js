@@ -34,6 +34,32 @@ async function run() {
             const result = await toysCollection.findOne(query);
             res.send(result);
         })
+
+        // update single data in mongodb
+        app.put('/inventory/:id', async(req, res) => {
+            const id = req.params.id;
+            const query = {_id: ObjectId(id)};
+            const update = {$set: req.body};
+            const result = await toysCollection.updateOne(query, update);
+            res.send(result);
+        })
+
+        //update quantity by input field
+        app.put('/inventory/:id', async(req, res) => {
+            const id = req.params.id;
+            const updatedQuantity = req.body;
+            const filter = {_id: ObjectId(id)};
+            const options = { upsert: true };
+            const update = {$set: 
+                {
+                    quantity: updatedQuantity
+                }
+            };
+            const result = await toysCollection.updateOne(filter, update, options);
+            res.send(result);
+        })
+        
+
     }
     finally {
 
