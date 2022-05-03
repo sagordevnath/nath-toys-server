@@ -60,15 +60,23 @@ async function run() {
         })
 
         // delete inventory
-        app.delete('/inventory/:id', async(req, res) => {
-            const id = req.params.id;
+        app.delete('/inventory/:id', async(req, res) => {  
+            const id = req.params.id;          
             const query = {_id: ObjectId(id)};
             const result = await toysCollection.deleteOne(query);
             res.send(result);
         })
-    } catch(err) {
-        console.error(err);
+
+        // POST single data
+        app.post('/inventory', async(req, res)=> {            
+            const newInventory = req.body;
+            const result = await toysCollection.insertOne(newInventory);
+            res.send(result);
+        })
+
         
+    } catch(err) {
+        console.error(err);    
         
 
     }
