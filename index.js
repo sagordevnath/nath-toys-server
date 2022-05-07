@@ -95,19 +95,19 @@ async function run() {
         })
 
         // POST single data
-        app.post('/myInventory', async(req, res)=> {            
+        app.post('/inventory', async(req, res)=> {            
             const myInventory = req.body;            
-            const result = await MyCollection.insertOne(myInventory);
+            const result = await toysCollection.insertOne(myInventory);
             res.send(result);
         })
 
         // get my items data
-        app.get('/MyInventory', verifyJWT, async (req, res) => {
+        app.get('/inventory', verifyJWT, async (req, res) => {
             const decodedEmail = req.decoded.email;
             const email = req.query.email;
             if (email === decodedEmail) {
                 const query = { email: email };
-                const cursor = MyCollection.find(query);
+                const cursor = toysCollection.find(query);
                 const myInventory = await cursor.toArray();
                 res.send(myInventory);
             }
