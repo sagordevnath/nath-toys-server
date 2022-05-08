@@ -45,7 +45,7 @@ async function run() {
             res.send({ accessToken });
         })
 
-        // get all data from mongodb
+        // get all API
         app.get('/inventory', async(req, res) => {
             const query = {};
             const cursor = toysCollection.find(query);
@@ -54,7 +54,7 @@ async function run() {
             res.send(toys);
         })
 
-        // get single data in mongodb
+        // get single API
         app.get('/inventory/:id', async(req, res) => {
             const id = req.params.id;
             const query= {_id: ObjectId(id)};
@@ -62,26 +62,7 @@ async function run() {
             res.send(result);
         })
 
-        // update single data in mongodb
-        // app.put('/inventory/:id', async(req, res) => {
-        //     const id = req.params.id;
-        //     const query = {_id: ObjectId(id)};
-        //     const update = {$set: req.body};
-        //     const result = await toysCollection.updateOne(query, update);
-        //     res.send(result);
-        // })
-
-        //update quantity by input field
-        // app.put('/inventory/:id/quantity', async(req, res) => {
-        //     const id = req.params.id;
-        //     const query = {_id: ObjectId(id)};
-        //     const update = {$set: {quantity: req.body.quantity}};
-        //     const result = await toysCollection.updateOne(query, update);
-        //     res.send(result);
-        //  } )
-       
-        
-
+        // update API       
         app.put('/inventory/:id', async(req, res) => {
             const id = req.params.id;
             const updatedQuantity = req.body;
@@ -96,7 +77,7 @@ async function run() {
             res.send(result);
         })
 
-        // delete inventory
+        // delete API
         app.delete('/inventory/:id', async(req, res) => {  
             const id = req.params.id;          
             const query = {_id: ObjectId(id)};
@@ -104,14 +85,14 @@ async function run() {
             res.send(result);
         })
 
-        // POST single data
+        // POST API
         app.post('/inventory', async(req, res)=> {            
             const myInventory = req.body;            
             const result = await toysCollection.insertOne(myInventory);
             res.send(result);
         })
 
-        // get my items data
+        // get my items API
         app.get('/inventory', verifyJWT, async (req, res) => {
             const decodedEmail = req.decoded.email;
             const email = req.query.email;
@@ -122,7 +103,7 @@ async function run() {
                 res.send(myInventory);
             }
             else{
-                res.status(403).send({message: 'forbidden access'})
+                res.status(403).send({message: 'Forbidden access'})
             }
         })
 
