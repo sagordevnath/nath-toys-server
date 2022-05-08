@@ -93,12 +93,12 @@ async function run() {
         })
 
         // get my items API
-        app.get('/myitems', verifyJWT, async (req, res) => {
+        app.get('/items', verifyJWT, async (req, res) => {
             const decodedEmail = req.decoded.email;
             const email = req.query.email;
             if (email === decodedEmail) {
-                const query = { email: email };
-                console.log(email);
+                const query = { email : email };
+                console.log(query);
                 const cursor = toysCollection.find(query);
                 const myInventory = await cursor.toArray();
                 res.send(myInventory);
