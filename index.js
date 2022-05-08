@@ -63,26 +63,36 @@ async function run() {
         })
 
         // update single data in mongodb
-        app.put('/inventory/:id', async(req, res) => {
-            const id = req.params.id;
-            const query = {_id: ObjectId(id)};
-            const update = {$set: req.body};
-            const result = await toysCollection.updateOne(query, update);
-            res.send(result);
-        })
+        // app.put('/inventory/:id', async(req, res) => {
+        //     const id = req.params.id;
+        //     const query = {_id: ObjectId(id)};
+        //     const update = {$set: req.body};
+        //     const result = await toysCollection.updateOne(query, update);
+        //     res.send(result);
+        // })
 
         //update quantity by input field
+        // app.put('/inventory/:id/quantity', async(req, res) => {
+        //     const id = req.params.id;
+        //     const query = {_id: ObjectId(id)};
+        //     const update = {$set: {quantity: req.body.quantity}};
+        //     const result = await toysCollection.updateOne(query, update);
+        //     res.send(result);
+        //  } )
+       
+        
+
         app.put('/inventory/:id', async(req, res) => {
             const id = req.params.id;
             const updatedQuantity = req.body;
-            const filter = {_id: ObjectId(id)};
+            const query = {_id: ObjectId(id)};
             const options = { upsert: true };
             const update = {$set: 
                 {
-                    quantity: updatedQuantity
+                    quantity: updatedQuantity.newNumber
                 }
             };
-            const result = await toysCollection.updateOne(filter, update, options);
+            const result = await toysCollection.updateOne(query, update, options);
             res.send(result);
         })
 
